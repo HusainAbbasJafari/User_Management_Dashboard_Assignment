@@ -1,10 +1,30 @@
 
 import { Outlet } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
+import { GlobalProvider } from "@/contexts/GlobalContext";
+
 
 const ClientLayout = () => {
+ 
+  
   return (
       <>
-      <h1>Client Layout <Outlet/> </h1>
+       
+        <GlobalProvider >
+          <div className="flex">
+            <Sidebar />
+            <div className="flex-1 flex flex-col">
+              <Navbar  />
+              <main className="p-6 h-full min-h-[calc(100vh-60px)] overflow-y-auto bg-red-600 ">
+                 <Outlet />
+              </main>
+            </div>
+          </div>
+        </GlobalProvider>
+       
+      
+  
       </>
   );
 };
