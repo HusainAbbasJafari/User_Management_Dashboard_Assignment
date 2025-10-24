@@ -16,7 +16,7 @@ const ClientLayout = () => {
             <Sidebar />
             <div className="flex-1 flex flex-col">
               <Navbar  />
-              <main className="p-6 h-full min-h-[calc(100vh-60px)] overflow-y-auto bg-red-600 ">
+              <main className="p-6 h-full min-h-[calc(100vh-60px)] max-h-[calc(100vh-60px)] overflow-y-auto  bg-secondary"> 
                  <Outlet />
               </main>
             </div>
