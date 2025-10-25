@@ -29,7 +29,10 @@ const UserTable = ({ users = [], itemsPerPage = 8 }) => {
   const [filteredUsers, setFilteredUsers] = useState(users)
   const [currentPage, setCurrentPage] = useState(1)
 
-  // debounce search handler
+   useEffect(() => {
+    setFilteredUsers(users);
+  }, [users]);
+  
   const handleSearch = useMemo(
     () =>
       debounce((term) => {
@@ -52,8 +55,6 @@ const UserTable = ({ users = [], itemsPerPage = 8 }) => {
     setSearchTerm(val)
     handleSearch(val)
   }
-
-  // pagination logic
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage)
   const startIndex = (currentPage - 1) * itemsPerPage
   const paginatedUsers = filteredUsers.slice(startIndex, startIndex + itemsPerPage)
@@ -64,7 +65,6 @@ const UserTable = ({ users = [], itemsPerPage = 8 }) => {
 
   return (
     <div className="w-full  dark:bg-black border   overflow-x-auto p-4 bg-white rounded-lg shadow-sm">
-      {/* Search Box */}
       <div className="flex justify-between items-center mb-4 flex-wrap gap-3">
         <h2 className="text-lg font-semibold">User List</h2>
         <Input
@@ -76,7 +76,6 @@ const UserTable = ({ users = [], itemsPerPage = 8 }) => {
         />
       </div>
 
-      {/* Table */}
       <Table>
         <TableCaption>A list of registered users.</TableCaption>
         <TableHeader>
@@ -92,11 +91,11 @@ const UserTable = ({ users = [], itemsPerPage = 8 }) => {
         <TableBody>
           {paginatedUsers.length > 0 ? (
             paginatedUsers.map((user) => (
-              <TableRow key={user.id}>
+              <TableRow key={user?.id}>
                 <TableCell className="font-medium">{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.phone || "—"}</TableCell>
-                <TableCell>{user.company || "—"}</TableCell>
+                <TableCell>{user?.email}</TableCell>
+                <TableCell>{user?.phone || "—"}</TableCell>
+                <TableCell>{user?.company?.name || user?.company || "—"}</TableCell>
                 <TableCell className="text-right">
                   <Button
                     variant="outline"
@@ -118,7 +117,7 @@ const UserTable = ({ users = [], itemsPerPage = 8 }) => {
         </TableBody>
       </Table>
 
-      {/* Pagination */}
+  
       {totalPages > 1 && (
         <div className="flex justify-center mt-4">
           <Pagination>

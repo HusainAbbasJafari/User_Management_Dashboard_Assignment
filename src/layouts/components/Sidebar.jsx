@@ -1,16 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { useGlobalContext } from "@/contexts/GlobalContext";
-import { Home, User, Menu, ArrowRight, ArrowLeft,Settings,InfoIcon ,Library } from "lucide-react";
+import { Home, User,UserPlus, Menu, ArrowRight, ArrowLeft,Settings,InfoIcon ,Library, } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Link } from "react-router-dom";
 
 const menuItems = [
   { name: "Home / UserList", icon: Home, path: "/" },
-  { name: "Add User", icon: User, path: "/user/add" },
-  { name: "Settings", icon: Settings, path: "" },
-  { name: "Profile", icon: User, path: "" },
-  { name: "Help", icon: InfoIcon, path: "" },
-  { name: "More", icon: Library, path: "" },
+  { name: "Add User", icon: UserPlus, path: "/user/add" },
+  { name: "Library", icon: Library,  },
+  { name: "Help", icon: InfoIcon,  },
+  { name: "Settings", icon: Settings,  },
 ];
 
 export default function Sidebar() {
@@ -43,14 +42,12 @@ export default function Sidebar() {
           <p className="text-xs text-muted-foreground">Created by @husain</p>
         </div>
       </div>
-
-      {/* Menu List */}
       <ul className="flex flex-col gap-3 text-foreground w-full max-w-[85%] mx-auto">
         {menuItems?.map((item) => (
           
-          <Link to={item.path} key={item.name} >
+          <Link to={item?.path} key={item?.name} >
           <li
-            key={item.name}
+            key={item?.name}
             className={`rounded-md p-2 shadow-md border-b hover:bg-primary/50 transition-all duration-300 flex items-center cursor-pointer hover:text-primary ${
               isSidebarOpen ? "w-full" : "w-10 h-10 justify-center mx-auto"
             }`}
@@ -61,23 +58,23 @@ export default function Sidebar() {
                 isSidebarOpen ? "opacity-100 ml-3 w-auto" : "opacity-0 w-0 ml-0"
               }`}
             >
-              {item.name}
+              {item?.name}
             </span>
           </li>
           </Link>
         ))}
       </ul>
-
-      {/* Profile Section */}
       <div
         className={`border-t absolute bottom-0 left-0 right-0 border-border mt-4 flex items-center  px-2 py-2 transition-all duration-300 ${
           isSidebarOpen ? "justify-start gap-3" : "justify-center"
         }`}
       >
+        <Link to="https://github.com/HusainAbbasJafari">
         <Avatar className="h-10 w-10">
           <AvatarImage src="https://avatars.githubusercontent.com/u/136914336?v=4" alt="Profile" />
           <AvatarFallback>HJ</AvatarFallback>
         </Avatar>
+        </Link>
         <div
           className={`transition-all duration-300 overflow-hidden whitespace-nowrap ${
             isSidebarOpen
@@ -89,8 +86,6 @@ export default function Sidebar() {
           <p className="text-xs text-muted-foreground">jafrihusain000@gmail.com</p>
         </div>
       </div>
-
-      {/* Toggle Button */}
       <Button
         variant="ghost"
         size="icon"

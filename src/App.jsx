@@ -39,10 +39,6 @@ const browserRouter = createBrowserRouter([
   },
     ],
   },
-  // {
-  //   path: "*",
-  //   element: <div>Not found</div>, // without layout
-  // },
 ]);
 
 function App() {

@@ -6,9 +6,7 @@ import { GlobalProvider } from "@/contexts/GlobalContext";
 import { Toaster } from "@/components/ui/toaster";
 
 
-const ClientLayout = () => {
- 
-  
+const ClientLayout = () => { 
   return (
       <>
         <GlobalProvider >
