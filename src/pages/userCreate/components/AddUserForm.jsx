@@ -11,7 +11,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { addNewUser } from "@/redux/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "@/hooks/use-toast";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -20,6 +21,7 @@ const schema = yup.object().shape({
 });
 
 export default function AddUserForm() {
+  const {users} = useSelector((state) => state.users);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
@@ -32,7 +34,9 @@ export default function AddUserForm() {
   } = useForm({
     resolver: yupResolver(schema),
   });
-
+  const userExists = (email) => {
+    return users.some((user) => user.email === email);
+  }
   const onSubmit = (data) => {
     const phoneNumber = parsePhoneNumberFromString(`+${data.phone}`);
     if (!phoneNumber || !phoneNumber.isValid()) {
@@ -46,8 +50,25 @@ export default function AddUserForm() {
       id: Date.now(),
       ...data,
     };
-    dispatch(addNewUser(newUser));
-    navigate("/");
+    if(userExists(data?.email)){
+      setError("email", {
+        type: "manual",
+        message: "A user with this email already exists",
+      });
+      toast({
+        title: "User Exists",
+        description: "A user with this email already exists.",
+        variant:"danger"
+      })
+    }else{
+      dispatch(addNewUser(newUser));
+      toast({
+        title: "User Created",
+        description: `${data?.name} has been added successfully.`,
+        variant:"success"
+      })
+      navigate("/");
+    }
     reset();
   };
 

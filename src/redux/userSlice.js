@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchUsers } from "@/services/user";
-import { toast } from "@/hooks/use-toast";
+
 
 
 export const fetchUsersData = createAsyncThunk("users/fetchUsersData", async () => {
@@ -26,18 +26,6 @@ const userSlice = createSlice({
   },
   reducers: {
     addNewUser: (state, action) => {
-      if (state.users.find((user) => user?.id === action?.payload?.id || user?.email === action?.payload?.email)) {
-        toast({
-          title: "User Exists",
-          description: `A user with the same ID or Email already exists.`,
-          variant: "destructive",
-        })
-        return;
-      }
-       toast({
-            title: "User Created",
-            description: `${action?.payload?.name} has been added successfully.`,
-          });
       state.users = [action?.payload, ...state.users];
       localStorage.setItem("UserData", JSON.stringify(state.users));
     },

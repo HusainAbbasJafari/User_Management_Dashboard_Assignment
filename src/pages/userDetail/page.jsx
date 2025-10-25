@@ -6,14 +6,14 @@ import { Mail, Phone, Globe, Building, MapPin } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useSelector } from "react-redux";
 
-
 export default function UserDetail() {
-  const {users} = useSelector((state) => state.users);
+  const { users } = useSelector((state) => state.users);
   const { id } = useParams();
 
   const user = users?.find((u) => u?.id === parseInt(id));
 
-  if (!user) return <p className="text-center mt-10 text-gray-500">User not found.</p>;
+  if (!user)
+    return <p className="text-center mt-10 text-gray-500">User not found.</p>;
 
   return (
     <div className="flex justify-center p-4">
@@ -42,9 +42,11 @@ export default function UserDetail() {
               <CardTitle className="text-2xl font-semibold">
                 {user?.name}
               </CardTitle>
-              <p className="text-sm text-green-600 font-semibold dark:font-normal dark:text-green-500">
-                @{user?.username || `@${user?.name}nexus`}
-              </p>
+              {user?.username && (
+                <p className="text-sm text-green-600 font-semibold dark:font-normal dark:text-green-500">
+                  @{user?.username}
+                </p>
+              )}
             </div>
           </div>
         </CardHeader>
@@ -59,37 +61,44 @@ export default function UserDetail() {
             </div>
             <div className="flex items-center gap-2 text-sm">
               <Phone size={16} />
-              <span>{user.phone}</span>
+              <span>{user?.phone}</span>
             </div>
-            <div className="flex items-center gap-2 text-sm">
-              <Globe size={16} />
-              <a
-                href={`http://${user?.website || "www.userwebsite.com"}`}
-                target="_blank"
-                rel="noreferrer"
-                className="text-blue-600 hover:underline"
-              >
-                {user?.website || "www.userwebsite.com"}
-              </a>
-            </div>
+            {user?.website && (
+              <div className="flex items-center gap-2 text-sm">
+                <Globe size={16} />
+                <a
+                  href={`http://${user?.website || "www.userwebsite.com"}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-blue-600 hover:underline"
+                >
+                  {user?.website || "www.userwebsite.com"}
+                </a>
+              </div>
+            )}
           </div>
 
           <Separator />
-          <div className="space-y-2">
-            <h3 className="font-semibold text-lg">Address</h3>
-            <div className="flex items-center gap-2 text-sm">
-              <MapPin size={16} />
-              <span>
-                {user?.address?.street}, {user?.address?.suite},{" "}
-                {user?.address?.city} - {user?.address?.zipcode}
-              </span>
-            </div>
-            <p className="text-xs text-gray-500">
-              Lat: {user?.address?.geo?.lat}, Lng: {user?.address?.geo?.lng}
-            </p>
-          </div>
+          {user?.address && (
+            <>
+              <div className="space-y-2">
+                <h3 className="font-semibold text-lg">Address</h3>
+                <div className="flex items-center gap-2 text-sm">
+                  <MapPin size={16} />
 
-          <Separator />
+                  <span>
+                    {user?.address?.street}, {user?.address?.suite},{" "}
+                    {user?.address?.city} - {user?.address?.zipcode}
+                  </span>
+                </div>
+                <p className="text-xs text-gray-500">
+                  Lat: {user?.address?.geo?.lat}, Lng: {user?.address?.geo?.lng}
+                </p>
+              </div>
+
+              <Separator />
+            </>
+          )}
 
           <div className="space-y-2">
             <h3 className="font-semibold text-lg">Company Details</h3>
@@ -98,7 +107,7 @@ export default function UserDetail() {
               <span>{user?.company?.name || user?.company}</span>
             </div>
             <p className="text-sm text-gray-600 italic">
-              “{user?.company?.catchPhrase}”
+              {user?.company?.catchPhrase}
             </p>
             <p className="text-xs text-gray-500">{user?.company?.bs}</p>
           </div>
