@@ -1,8 +1,9 @@
 import React from 'react'
+import AddUserForm from './components/AddUserForm'
 
 const UserCreate = () => {
   return (
-    <div>User Create Page</div>
+    <AddUserForm/>
   )
 }
 export default UserCreate

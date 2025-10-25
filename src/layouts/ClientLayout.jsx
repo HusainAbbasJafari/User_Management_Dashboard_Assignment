@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import { GlobalProvider } from "@/contexts/GlobalContext";
+import { Toaster } from "@/components/ui/toaster";
 
 
 const ClientLayout = () => {
@@ -10,21 +11,18 @@ const ClientLayout = () => {
   
   return (
       <>
-       
         <GlobalProvider >
           <div className="flex">
             <Sidebar />
             <div className="flex-1 flex flex-col">
               <Navbar  />
-              <main className="p-6 h-full min-h-[calc(100vh-60px)] max-h-[calc(100vh-60px)] overflow-y-auto  bg-secondary"> 
+              <main className="p-6 h-full min-h-[calc(100vh-60px)] max-h-[calc(100vh-60px)] overflow-y-auto w-full max-w-[100vw] sm:max-w-full bg-secomdary">
                  <Outlet />
               </main>
             </div>
           </div>
+           <Toaster/>
         </GlobalProvider>
-       
-      
-  
       </>
   );
 };
